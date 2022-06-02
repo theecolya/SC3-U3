@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PT from 'prop-types'
+import { axiosWithAuth } from '../axios/index'
 
 const initialFormValues = {
   username: '',
@@ -12,12 +13,19 @@ export default function LoginForm(props) {
 
   const onChange = evt => {
     const { id, value } = evt.target
-    setValues({ ...values, [id]: value })
+    setValues({ ...values, [id]: value.trim() })
   }
 
   const onSubmit = evt => {
     evt.preventDefault()
     // ✨ implement
+    axiosWithAuth().post('/login', {
+      username: values.username,
+      password: values.password
+    })
+    .then((res) => { console.log(res);
+      localStorage.setItem('token', res.data.token)})
+    .catch(err => console.log(err))
   }
 
   const isDisabled = () => {

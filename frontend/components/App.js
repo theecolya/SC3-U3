@@ -65,6 +65,19 @@ export default function App() {
     // ✨ implement
   }
 
+  const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route
+      {...rest}
+      render={props => 
+        localStorage.getItem('token') ? (
+          <ArticleForm {...props}/>
+        ) : (
+          <Redirect to='/' />
+        )
+      }
+    />
+  );
+
   return (
     // ✨ fix the JSX: `Spinner`, `Message`, `LoginForm`, `ArticleForm` and `Articles` expect props ❗
     <>
@@ -79,22 +92,22 @@ export default function App() {
         </nav>
         <Routes>
           <Route path="/" element={<LoginForm login={login}/>} />
-          <Route path="articles" element={
+          <Route path="articles" component={PrivateRoute} element={
             <>
-              <ArticleForm 
-                postArticle={postArticle}
-                updateArticle={updateArticle}
-                setCurrentArticleId={setCurrentArticleId}
-                />
-              <Articles 
-                articles={articles}
-                getArticles={getArticles}
-                deleteArticle={deleteArticle}
-                setCurrentArticleId={setCurrentArticleId}
-                currentArticleId={currentArticleId}
-                />
-            </>
-          } />
+            <ArticleForm 
+              postArticle={postArticle}
+              updateArticle={updateArticle}
+              setCurrentArticleId={setCurrentArticleId}
+              />
+            <Articles 
+              articles={articles}
+              getArticles={getArticles}
+              deleteArticle={deleteArticle}
+              setCurrentArticleId={setCurrentArticleId}
+              currentArticleId={currentArticleId}
+              />
+          </>
+        }/>
         </Routes>
         <footer>Bloom Institute of Technology 2022</footer>
       </div>
