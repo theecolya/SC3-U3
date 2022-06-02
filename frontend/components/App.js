@@ -5,6 +5,7 @@ import LoginForm from './LoginForm'
 import Message from './Message'
 import ArticleForm from './ArticleForm'
 import Spinner from './Spinner'
+import { PrivateRoute } from './PrivateRoute'
 
 const articlesUrl = 'http://localhost:9000/api/articles'
 const loginUrl = 'http://localhost:9000/api/login'
@@ -18,14 +19,17 @@ export default function App() {
 
   // ✨ Research `useNavigate` in React Router v.6
   const navigate = useNavigate()
-  const redirectToLogin = () => { /* ✨ implement */ }
-  const redirectToArticles = () => { /* ✨ implement */ }
+  const redirectToLogin = () => { navigate('/') }
+  const redirectToArticles = () => { navigate('/articles') }
 
   const logout = () => {
     // ✨ implement
     // If a token is in local storage it should be removed,
+    localStorage.removeItem('token');
     // and a message saying "Goodbye!" should be set in its proper state.
+    setMessage('Goodbye');
     // In any case, we should redirect the browser back to the login screen,
+    redirectToLogin()
     // using the helper above.
   }
 
@@ -64,19 +68,7 @@ export default function App() {
   const deleteArticle = article_id => {
     // ✨ implement
   }
-
-  const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route
-      {...rest}
-      render={props => 
-        localStorage.getItem('token') ? (
-          <ArticleForm {...props}/>
-        ) : (
-          <Redirect to='/' />
-        )
-      }
-    />
-  );
+  
 
   return (
     // ✨ fix the JSX: `Spinner`, `Message`, `LoginForm`, `ArticleForm` and `Articles` expect props ❗
@@ -92,21 +84,21 @@ export default function App() {
         </nav>
         <Routes>
           <Route path="/" element={<LoginForm login={login}/>} />
-          <Route path="articles" component={PrivateRoute} element={
-            <>
-            <ArticleForm 
-              postArticle={postArticle}
-              updateArticle={updateArticle}
-              setCurrentArticleId={setCurrentArticleId}
-              />
-            <Articles 
-              articles={articles}
-              getArticles={getArticles}
-              deleteArticle={deleteArticle}
-              setCurrentArticleId={setCurrentArticleId}
-              currentArticleId={currentArticleId}
-              />
-          </>
+          <Route path="articles" element={
+              <PrivateRoute>
+                <ArticleForm 
+                  postArticle={postArticle}
+                  updateArticle={updateArticle}
+                  setCurrentArticleId={setCurrentArticleId}
+                />
+                <Articles 
+                  articles={articles}
+                  getArticles={getArticles}
+                  deleteArticle={deleteArticle}
+                  setCurrentArticleId={setCurrentArticleId}
+                  currentArticleId={currentArticleId}
+                />
+              </PrivateRoute>
         }/>
         </Routes>
         <footer>Bloom Institute of Technology 2022</footer>

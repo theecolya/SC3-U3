@@ -1,15 +1,20 @@
 import React, { useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import PT from 'prop-types'
+import { axiosWithAuth } from '../axios'
 
 export default function Articles(props) {
   // ✨ where are my props? Destructure them here
 
   // ✨ implement conditional logic: if no token exists
   // we should render a Navigate to login screen (React Router v.6)
+  localStorage.getItem('token') ? <Navigate to='/articles'/> : <Navigate to='/'/>
 
   useEffect(() => {
     // ✨ grab the articles here, on first render only
+    axiosWithAuth().get('/articles')
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
   })
 
   return (

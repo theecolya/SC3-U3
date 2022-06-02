@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PT from 'prop-types'
 import { axiosWithAuth } from '../axios/index'
+import { useNavigate } from 'react-router-dom'
 
 const initialFormValues = {
   username: '',
@@ -8,6 +9,7 @@ const initialFormValues = {
 }
 export default function LoginForm(props) {
   const [values, setValues] = useState(initialFormValues)
+  const navigate = useNavigate()
   // ✨ where are my props? Destructure them here
   
 
@@ -23,8 +25,9 @@ export default function LoginForm(props) {
       username: values.username,
       password: values.password
     })
-    .then((res) => { console.log(res);
-      localStorage.setItem('token', res.data.token)})
+    .then((res) => {
+      localStorage.setItem('token', res.data.token);
+      navigate('/articles')})
     .catch(err => console.log(err))
   }
 
