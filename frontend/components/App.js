@@ -8,9 +8,6 @@ import Spinner from './Spinner'
 import { PrivateRoute } from './PrivateRoute'
 import { axiosWithAuth } from '../axios'
 
-const articlesUrl = 'http://localhost:9000/api/articles'
-const loginUrl = 'http://localhost:9000/api/login'
-
 export default function App() {
   // ✨ MVP can be achieved with these states
   const [message, setMessage] = useState('')
@@ -48,7 +45,8 @@ export default function App() {
       localStorage.setItem('token', res.data.token);
       setMessage(res.data.message);
       navigate('/articles');
-      setSpinnerOn(false)})
+      setSpinnerOn(false)
+    })
     .catch(err => console.log(err))
     // On success, we should set the token to local storage in a 'token' key,
     // put the server success message in its proper state, and redirect
