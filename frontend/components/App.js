@@ -28,7 +28,7 @@ export default function App() {
     // If a token is in local storage it should be removed,
     localStorage.removeItem('token');
     // and a message saying "Goodbye!" should be set in its proper state.
-    setMessage('Goodbye');
+    setMessage('Goodbye!');
     // In any case, we should redirect the browser back to the login screen,
     redirectToLogin()
     // using the helper above.
@@ -58,7 +58,16 @@ export default function App() {
   const getArticles = () => {
     // ✨ implement
     // We should flush the message state, turn on the spinner
+    setMessage('');
+    setSpinnerOn(true);
     // and launch an authenticated request to the proper endpoint.
+    axiosWithAuth().get('/articles')
+      .then(res => {
+        setArticles(res.data.articles);
+        setMessage(res.data.message);
+        setSpinnerOn(false)
+      })
+      .catch(err => console.log(err))
     // On success, we should set the articles in their proper state and
     // put the server success message in its proper state.
     // If something goes wrong, check the status of the response:
@@ -66,8 +75,17 @@ export default function App() {
     // Don't forget to turn off the spinner!
   }
 
-  const postArticle = article => {
+  const postArticle = (title, text, topic) => {
     // ✨ implement
+    setMessage('');
+    setSpinnerOn(true);
+    axiosWithAuth().post('/articles', {title: title, text: text, topic: topic})
+      .then(res => {
+        getArticles();
+        setMessage(res.data)
+        setSpinnerOn(false)
+      })
+      .catch(err => console.log(err))
     // The flow is very similar to the `getArticles` function.
     // You'll know what to do! Use log statements or breakpoints
     // to inspect the response from the server.
