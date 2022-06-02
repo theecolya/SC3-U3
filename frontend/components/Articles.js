@@ -11,7 +11,9 @@ export default function Articles(props) {
 
   useEffect(() => {
     // ✨ grab the articles here, on first render only
+    if(!articles.length) {
     getArticles()
+    console.log('fired')}
   }, [])
 
   return (
