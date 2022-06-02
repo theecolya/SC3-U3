@@ -79,8 +79,6 @@ export default function ArticleForm(props) {
   )
 }
 
-//map itemid === resid ? res : exisiting item
-
 // 🔥 No touchy: LoginForm expects the following props exactly:
 ArticleForm.propTypes = {
   postArticle: PT.func.isRequired,

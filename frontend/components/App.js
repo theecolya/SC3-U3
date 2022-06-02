@@ -95,7 +95,8 @@ export default function App() {
     axiosWithAuth().put(`/articles/${article_id}`, article)
       .then(res => {
         console.log(res);
-        setMessage(res.data.message)
+        setMessage(res.data.message);
+        setCurrentArticleId(null)
         setArticles(articles.map(item => {
           if(item.article_id === res.data.article.article_id) {
             return res.data.article
