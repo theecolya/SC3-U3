@@ -90,8 +90,21 @@ export default function App() {
     // to inspect the response from the server.
   }
 
-  const updateArticle = ({ article_id, article }) => {
+  const updateArticle = ({ article_id, ...article }) => {
     // ✨ implement
+    axiosWithAuth().put(`/articles/${article_id}`, article)
+      .then(res => {
+        console.log(res);
+        setMessage(res.data.message)
+        setArticles(articles.map(item => {
+          if(item.article_id === res.data.article.article_id) {
+            return res.data.article
+          } else {
+            return item
+          }
+        }))
+      })
+      .catch(err => console.log(err))
     // You got this!
   }
 
