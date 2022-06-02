@@ -18,13 +18,12 @@ export default function ArticleForm(props) {
     text: currentArticle.text,
     topic: currentArticle.topic 
     });
-    setCurrentArticleId(currentArticle.article_id)
     } else { setValues(initialFormValues)}
   }, [currentArticle])
 
   const onChange = evt => {
     const { id, value } = evt.target
-    setValues({ ...values, [id]: value.trim() })
+    setValues({ ...values, [id]: value })
   }
 
   const onSubmit = evt => {
@@ -75,7 +74,7 @@ export default function ArticleForm(props) {
       </select>
       <div className="button-group">
         <button disabled={isDisabled()} id="submitArticle">Submit</button>
-        <button onClick={Function.prototype}>Cancel edit</button>
+        <button onClick={() => setCurrentArticleId(null)}>Cancel edit</button>
       </div>
     </form>
   )

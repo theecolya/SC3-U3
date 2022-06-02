@@ -119,6 +119,7 @@ export default function App() {
                   postArticle={postArticle}
                   updateArticle={updateArticle}
                   setCurrentArticleId={setCurrentArticleId}
+                  currentArticle={articles.find(a => a.article_id === currentArticleId)}
                 />
                 <Articles 
                   articles={articles}
